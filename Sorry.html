@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forgive Me ❤️</title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Falling hearts background */
+.bg_heart {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #222;
+  z-index: -2;
+}
+.heart {
+  position: absolute;
+  top: -50%;
+  transform: rotate(-45deg);
+}
+.heart:before, .heart:after {
+  content:"";
+  position:absolute;
+  width:100%; height:100%;
+  background:inherit;
+  border-radius:50%;
+}
+.heart:before { top:-50%; left:0; }
+.heart:after { top:0; right:-50%; }
+
+@keyframes love {
+  0% { top: 110%; }
+  100% { top: -10%; }
+}
+
+/* Center content */
+.forgive-box {
+  position: absolute;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  background: rgba(0,0,0,0.5);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(255,0,100,0.6);
+  color: white;
+  z-index: 10;
+  transition: 0.5s ease;
+}
+.forgive-box img { max-width:200px; border-radius:10px; margin-bottom:20px; }
+.forgive-box p { font-size:1.5rem; margin:15px 0; }
+.forgive-box button {
+  margin:10px; padding:10px 25px; font-size:1rem;
+  border:none; border-radius:8px; cursor:pointer; transition:0.3s;
+}
+button.yes { background:#28a745; color:white; }
+button.yes:hover { background:#218838; }
+button.no { background:#dc3545; color:white; }
+button.no:hover { background:#b02a37; }
+
+/* I Love You final message */
+#loveMsg {
+  position: fixed;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  font-size:4rem;
+  color:#ff4d6d;
+  text-shadow: 0 0 20px #ff4d6d,0 0 40px #ffb6c1;
+  display:none;
+  z-index:15;
+  text-align:center;
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  width:10px; height:10px;
+  top:0;
+  pointer-events:none;
+  border-radius:50%;
+  opacity:0.9;
+  z-index:20;
+  animation: fall linear infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg);}
+  100% { transform: translateY(100vh) rotate(360deg);}
+}
+</style>
+</head>
+<body>
+
+<div class="bg_heart"></div>
+
+<div class="forgive-box" id="forgiveBox">
+  <img id="gif" src="gif1.gif" alt="Cute GIF">
+  <p id="message">Have you forgiven me? ❤️</p>
+  <button class="yes" id="yesBtn">Yes</button>
+  <button class="no" id="noBtn">No</button>
+</div>
+
+<div id="loveMsg">Yayyyyyyy!!!🎉🎉 Thank you babyyy 😘😘😘!! I Love You soo muchh meri pyaari babyyy😚😘💗💗❤️</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// Falling hearts
+setInterval(function(){
+  var r_num = Math.floor(Math.random() * 40) + 1;
+  var r_size = Math.floor(Math.random() * 65) + 10;
+  var r_left = Math.floor(Math.random() * 100) + 1;
+  var r_bg = Math.floor(Math.random() * 25) + 100;
+  var r_time = Math.floor(Math.random() * 5) + 5;
+
+  $('.bg_heart').append(
+    "<div class='heart' style='width:"+r_size+"px;height:"+r_size+"px;left:"+r_left+
+    "%;background:rgba(255,"+(r_bg-25)+","+r_bg+",1);animation:love "+r_time+"s ease'></div>"
+  );
+  $('.bg_heart').append(
+    "<div class='heart' style='width:"+(r_size-10)+"px;height:"+(r_size-10)+"px;left:"+(r_left+r_num)+
+    "%;background:rgba(255,"+(r_bg-25)+","+(r_bg+25)+",1);animation:love "+(r_time+5)+"s ease'></div>"
+  );
+
+  $('.heart').each(function(){
+    var top = parseFloat($(this).css("top"));
+    var width = parseFloat($(this).css("width"));
+    if(top <= -100 || width >= 150){ $(this).remove(); }
+  });
+},500);
+
+// GIF + message
+const gifs = ["gif1.gif","gif2.gif","gif3.gif","gif4.gif","gif5.gif","gif6.gif","gif7.gif","gif8.gif","gif9.gif","gif10.gif","gif11.gif","gif12.gif","gif13.gif","gif14.gif","gif15.gif"];
+const messages = ["Maaf krrdijiye babyy ❤️","Maaf krdo na 😔","Please babyyyy 🙇‍♂️","Meri pyaari manchurian please 😟","Please Meri cotton candy 💕","Please myy preety girl 🥺","Baat krlo na babyy😭💖","I’m truly sorry 😞","Still angry? 😣","Esa mtt kro meri rani sahiba 🥹","Oyeee meri madam jii😟😘😘","Maan bhi jaao madam jii😚😚💗💗","Say yes, please 💝","Still no? 😭","Pleasee meri cutie pie 😭💗😭💗"];
+
+let index = 0;
+const gifEl = document.getElementById("gif");
+const msgEl = document.getElementById("message");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const loveMsg = document.getElementById("loveMsg");
+const forgiveBox = document.getElementById("forgiveBox");
+
+// No button
+noBtn.addEventListener("click",()=>{
+  index = (index+1)%gifs.length;
+  gifEl.src = gifs[index];
+  msgEl.textContent = messages[index];
+});
+
+// Yes button
+yesBtn.addEventListener("click",()=>{
+  // fade out box
+  $(forgiveBox).fadeOut(800,()=>{
+    loveMsg.style.display="block";
+    // generate continuous confetti
+    for(let i=0;i<200;i++){
+      let confetti = document.createElement("div");
+      confetti.className="confetti";
+      confetti.style.left=Math.random()*100+"vw";
+      confetti.style.backgroundColor=`hsl(${Math.random()*360},100%,70%)`;
+      confetti.style.width=(5+Math.random()*8)+"px";
+      confetti.style.height=confetti.style.width;
+      confetti.style.animationDuration=(2+Math.random()*3)+"s";
+      document.body.appendChild(confetti);
+      setTimeout(()=>{confetti.remove();},10000);
+    }
+  });
+});
+</script>
+</body>
+</html>
